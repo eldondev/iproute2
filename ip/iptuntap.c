@@ -206,11 +206,15 @@ static int do_add(int argc, char **argv)
 	struct ifreq ifr;
 	uid_t uid = -1;
 	gid_t gid = -1;
+	int result;
 
 	if (parse_args(argc, argv, &ifr, &uid, &gid) < 0)
 		return -1;
 
-	return tap_add_ioctl(&ifr, uid, gid);
+	result = tap_add_ioctl(&ifr, uid, gid);
+	if (show_details)
+		printf("%s\n", ifr.ifr_name);
+	return result;
 }
 
 static int do_del(int argc, char **argv)
